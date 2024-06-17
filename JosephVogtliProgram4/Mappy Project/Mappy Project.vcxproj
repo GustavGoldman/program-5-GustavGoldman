@@ -14,7 +14,7 @@
     <ProjectGuid>{07FDD378-FF1D-4460-9C2E-31980015053B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Mappy_Project</RootNamespace>
-    <ProjectName>JosephVogtliProgram4</ProjectName>
+    <ProjectName>JosephVogtliProgram5</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -89,13 +89,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BadGuy.cpp" />
     <ClCompile Include="mappy_A5.c" />
     <ClCompile Include="Source.cpp" />
-    <ClCompile Include="SpriteSheet.cpp" />
+    <ClCompile Include="PikuSheet.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BadGuy.h" />
     <ClInclude Include="mappy_A5.h" />
-    <ClInclude Include="SpriteSheet.h" />
+    <ClInclude Include="PikuSheet.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

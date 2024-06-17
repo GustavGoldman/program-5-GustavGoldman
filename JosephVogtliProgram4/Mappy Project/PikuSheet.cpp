@@ -1,14 +1,14 @@
-#include "SpriteSheet.h"
+#include "PikuSheet.h"
 
-Sprite::Sprite()
+Piku::Piku()
 {
-	image=NULL;
+	piku=NULL;
 }
-Sprite::~Sprite()
+Piku::~Piku()
 {
-	al_destroy_bitmap(image);
+	al_destroy_bitmap(piku);
 }
-void Sprite::InitSprites(int width, int height)
+void Piku::InitPiku(int width, int height)
 {
 	x = 80;
 	y = 80;
@@ -25,11 +25,11 @@ void Sprite::InitSprites(int width, int height)
 	animationDirection = 1;
 	jframe;
 
-	image = al_load_bitmap("piku.png");
-	al_convert_mask_to_alpha(image, al_map_rgb(255,0,255));
+	piku = al_load_bitmap("piku.png");
+	al_convert_mask_to_alpha(piku, al_map_rgb(255,0,255));
 }
 
-void Sprite::UpdateSprites(int width, int height, int dir)
+void Piku::UpdatePiku(int width, int height, int dir)
 {
 	int oldx = x;
 	int oldy = y;
@@ -110,7 +110,7 @@ void Sprite::UpdateSprites(int width, int height, int dir)
 	}
 }
 
-bool Sprite::CollisionEndBlock()
+bool Piku::CollisionEndBlock()
 {
 	if (endValue(x + frameWidth/2, y + frameHeight + 5))
 		return true;
@@ -118,24 +118,24 @@ bool Sprite::CollisionEndBlock()
 		return false;
 }
 
-void Sprite::DrawSprites(int xoffset, int yoffset)
+void Piku::DrawPiku(int xoffset, int yoffset)
 {
 	int fx = (curFrame % animationColumns) * frameWidth;
 	int fy = (curFrame / animationColumns) * frameHeight;
 
 	if (animationDirection == 1) {
-		al_draw_bitmap_region(image, fx, fy, frameWidth, frameHeight, x - xoffset, y - yoffset, 0);
+		al_draw_bitmap_region(piku, fx, fy, frameWidth, frameHeight, x - xoffset, y - yoffset, 0);
 	}
 	else if (animationDirection == 0) {
-		al_draw_bitmap_region(image, fx, fy, frameWidth, frameHeight, x - xoffset, y - yoffset, ALLEGRO_FLIP_HORIZONTAL);
+		al_draw_bitmap_region(piku, fx, fy, frameWidth, frameHeight, x - xoffset, y - yoffset, ALLEGRO_FLIP_HORIZONTAL);
 	}
 	else if (animationDirection == 2) {
-		al_draw_bitmap_region(image, 0, 0, frameWidth, frameHeight, x - xoffset, y - yoffset, 0);
+		al_draw_bitmap_region(piku, 0, 0, frameWidth, frameHeight, x - xoffset, y - yoffset, 0);
 	}
 	else if (animationDirection == 3) {
-		al_draw_bitmap_region(image, fx, fy, frameWidth, frameHeight, x - xoffset, y - yoffset, 0);
+		al_draw_bitmap_region(piku, fx, fy, frameWidth, frameHeight, x - xoffset, y - yoffset, 0);
 	}
 	else if (animationDirection == 4) {
-		al_draw_bitmap_region(image, fx, fy, frameWidth, frameHeight, x - xoffset, y - yoffset, 0);
+		al_draw_bitmap_region(piku, fx, fy, frameWidth, frameHeight, x - xoffset, y - yoffset, 0);
 	}
 }

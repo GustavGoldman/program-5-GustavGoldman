@@ -5,7 +5,7 @@
 #include <allegro5\allegro_ttf.h>
 #include <iostream>
 #include <string>
-#include "SpriteSheet.h"
+#include "PikuSheet.h"
 #include "mappy_A5.h"
 using namespace std;
 
@@ -22,7 +22,8 @@ int main(void)
 	bool done = false;
 	bool render = false;
 	//Player Variable
-	Sprite player;
+	Piku player;
+
 
 
 
@@ -48,7 +49,7 @@ int main(void)
 	al_init_ttf_addon();
 	ALLEGRO_FONT* font = al_load_font("goodtime.ttf", 18, 0);
 
-	player.InitSprites(WIDTH,HEIGHT);
+	player.InitPiku(WIDTH,HEIGHT);
 
 	int xOff = 0;
 	int yOff = 0;
@@ -56,6 +57,7 @@ int main(void)
 	int timeLeft = 60;
 	int frame = 0;
 	bool timeUp = false;
+	int direction = 0;
 	if(MapLoad("maze1.FMP", 1))
 		exit(0);
 
@@ -71,7 +73,7 @@ int main(void)
 
 	//draw foreground tiles
 	MapDrawFG(xOff,yOff, 0, 0, WIDTH-1, HEIGHT-1, 1);
-	player.DrawSprites(0,0);
+	player.DrawPiku(0,0);
 	al_flip_display();
 	al_clear_to_color(al_map_rgb(0,0,0));
 	while (!done)
@@ -89,20 +91,29 @@ int main(void)
 				}
 			}
 			render = true;
-			if (keys[UP])
-				player.UpdateSprites(WIDTH, HEIGHT, 3);
-			else if (keys[DOWN])
-				player.UpdateSprites(WIDTH, HEIGHT, 4);
-			else if (keys[LEFT])
-				player.UpdateSprites(WIDTH, HEIGHT, 0);
-			else if (keys[RIGHT])
-				player.UpdateSprites(WIDTH, HEIGHT, 1);
+			if (keys[UP]) {
+				player.UpdatePiku(WIDTH, HEIGHT, 3);
+				direction = 3;
+			}
+			else if (keys[DOWN]) {
+				player.UpdatePiku(WIDTH, HEIGHT, 4);
+				direction = 4;
+			}
+			else if (keys[LEFT]) {
+				player.UpdatePiku(WIDTH, HEIGHT, 0);
+				direction = 0;
+			}
+			else if (keys[RIGHT]) {
+				player.UpdatePiku(WIDTH, HEIGHT, 1);
+				direction = 1;
+			}
 			else
-				player.UpdateSprites(WIDTH, HEIGHT, 2);
+				player.UpdatePiku(WIDTH, HEIGHT, 2);
+
 			if (player.CollisionEndBlock()) {
 				timer = 0;
 				level++;
-				player.InitSprites(WIDTH, HEIGHT);
+				player.InitPiku(WIDTH, HEIGHT);
 				if (level == 2) {
 					frame = 0;
 					if (MapLoad("maze2.FMP", 1))
@@ -117,6 +128,7 @@ int main(void)
 					done = true;
 				}
 			}
+			
 			render = true;
 
 		}
@@ -145,6 +157,7 @@ int main(void)
 				break;
 			case ALLEGRO_KEY_SPACE:
 				keys[SPACE] = true;
+					
 				break;
 
 			}
@@ -197,7 +210,7 @@ int main(void)
 			//draw foreground tiles
 			MapDrawFG(xOff, yOff, 0, 0, WIDTH, HEIGHT, 0);
 			MapUpdateAnims();
-			player.DrawSprites(xOff, yOff);
+			player.DrawPiku(xOff, yOff);
 			if (level == 1) {
 				al_draw_text(font, al_map_rgb(255, 255, 255), WIDTH / 2, 0, 0, "LEVEL 1");
 			}
