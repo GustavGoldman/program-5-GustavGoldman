@@ -90,12 +90,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BadGuy.cpp" />
+    <ClCompile Include="Coins.cpp" />
     <ClCompile Include="mappy_A5.c" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="PikuSheet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BadGuy.h" />
+    <ClInclude Include="Coins.h" />
     <ClInclude Include="mappy_A5.h" />
     <ClInclude Include="PikuSheet.h" />
   </ItemGroup>

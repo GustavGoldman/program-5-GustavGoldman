@@ -7,10 +7,12 @@
 #include <string>
 #include "PikuSheet.h"
 #include "mappy_A5.h"
+#include "Coins.h"
 using namespace std;
 
 int collided(int x, int y);  //Tile Collision
 bool endValue( int x, int y ); //End Block with the User Value = 8
+int key = 0;
 int main(void)
 {
 	const int WIDTH = 900;
@@ -23,7 +25,7 @@ int main(void)
 	bool render = false;
 	//Player Variable
 	Piku player;
-
+	coin myCoin;
 
 
 
@@ -56,6 +58,7 @@ int main(void)
 	int timeCheck = 0;
 	int timeLeft = 60;
 	int frame = 0;
+	int barWidth = 0;
 	bool timeUp = false;
 	int direction = 0;
 	if(MapLoad("maze1.FMP", 1))
@@ -86,6 +89,7 @@ int main(void)
 			frame += 1;
 			if (frame >= 60) {
 				timeCheck = frame / 60;
+				barWidth = timeCheck * 15;
 				if (timeCheck == 60) {
 					done = true;
 				}
@@ -128,9 +132,26 @@ int main(void)
 					done = true;
 				}
 			}
-			
+			if (key == 3) {
+				timer = 0;
+				key = 0;
+				level++;
+				player.InitPiku(WIDTH, HEIGHT);
+				if (level == 2) {
+					frame = 0;
+					if (MapLoad("maze2.FMP", 1))
+						exit(0);
+				}
+				if (level == 3) {
+					frame = 0;
+					if (MapLoad("maze3.FMP", 1))
+						exit(0);
+				}
+				if (level == 4) {
+					done = true;
+				}
+			}
 			render = true;
-
 		}
 		else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
 		{
@@ -213,6 +234,7 @@ int main(void)
 			player.DrawPiku(xOff, yOff);
 			if (level == 1) {
 				al_draw_text(font, al_map_rgb(255, 255, 255), WIDTH / 2, 0, 0, "LEVEL 1");
+
 			}
 			else if (level == 2) {
 				al_draw_text(font, al_map_rgb(255, 255, 255), WIDTH / 2, 0, 0, "LEVEL 2");
@@ -225,8 +247,21 @@ int main(void)
 			}
 			string test = to_string(timeLeft - timeCheck); //timer
 			const char* test2 = test.c_str();
+			al_draw_filled_rectangle(0, HEIGHT - 40 / 2, WIDTH - barWidth, HEIGHT, al_map_rgb(0, 255, 0));
 			al_draw_text(font, al_map_rgb(255, 255, 255), (WIDTH / 2) - 50, HEIGHT - 40 / 2, 0, "TIME:");
 			al_draw_text(font, al_map_rgb(255, 255, 255), (WIDTH / 2) + 20, HEIGHT - 40 / 2, 0, test2);
+			if (key == 1) {
+				al_draw_filled_circle(10, HEIGHT / 2, 5, al_map_rgb(0, 255, 0));
+			}
+			if (key == 2) {
+				al_draw_filled_circle(10, HEIGHT / 2, 5, al_map_rgb(0, 255, 0));
+				al_draw_filled_circle(10, HEIGHT / 2 - 10, 5, al_map_rgb(0, 255, 0));
+			}
+			if (key == 3) {
+				al_draw_filled_circle(10, HEIGHT / 2, 5, al_map_rgb(0, 255, 0));
+				al_draw_filled_circle(10, HEIGHT / 2 - 10, 5, al_map_rgb(0, 255, 0));
+				al_draw_filled_circle(10, HEIGHT / 2 - 10, 5, al_map_rgb(0, 255, 0));
+			}
 			al_flip_display();
 			al_clear_to_color(al_map_rgb(0, 0, 0));
 		}
@@ -253,7 +288,19 @@ int collided(int x, int y)
 		return 1;
 	}
 	else if (blockdata->user1 == 2) {
-		return 2;
+		key += 1;
+		blockdata->user1 = 0;
+		return 0;
+	}
+	else if (blockdata->user1 == 3) {
+		key += 1;
+		blockdata->user1 = 0;
+		return 0;
+	}
+	else if (blockdata->user1 == 4) {
+		key += 1;
+		blockdata->user1 = 0;
+		return 0;
 	}
 }
 
