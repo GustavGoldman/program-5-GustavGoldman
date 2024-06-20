@@ -3,6 +3,8 @@
 #include <allegro5/allegro_primitives.h>
 #include <allegro5\allegro_font.h>
 #include <allegro5\allegro_ttf.h>
+#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
 #include <iostream>
 #include <string>
 #include "PikuSheet.h"
@@ -33,10 +35,30 @@ int main(void)
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 	ALLEGRO_TIMER *timer;
+	ALLEGRO_SAMPLE* sample = NULL;
+	ALLEGRO_SAMPLE* tap = NULL;
 
 	//program init
 	if(!al_init())										//initialize Allegro
 		return -1;
+
+	if (!al_install_audio()) {
+		return -1;
+	}
+
+	if (!al_init_acodec_addon()) {
+		return -1;
+	}
+
+	if (!al_reserve_samples(1)) {
+		return -1;
+	}
+
+	sample = al_load_sample("The Mountain Village.flac");
+	tap= al_load_sample("tap.flac");
+	if (!tap && !sample) {
+		exit(9);
+	}
 
 	display = al_create_display(WIDTH, HEIGHT);			//create our display object
 
@@ -95,6 +117,9 @@ int main(void)
 				}
 			}
 			render = true;
+
+			al_play_sample(sample, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
+
 			if (keys[UP]) {
 				player.UpdatePiku(WIDTH, HEIGHT, 3);
 				direction = 3;
@@ -270,6 +295,8 @@ int main(void)
 	MapFreeMem();
 	al_destroy_event_queue(event_queue);
 	al_destroy_display(display);						//destroy our display object
+	al_destroy_sample(sample);
+	al_destroy_sample(tap);
 
 	return 0;
 }

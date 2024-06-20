@@ -3,10 +3,12 @@
 Piku::Piku()
 {
 	piku=NULL;
+	sample = NULL;
 }
 Piku::~Piku()
 {
 	al_destroy_bitmap(piku);
+	al_destroy_sample(sample);
 }
 void Piku::InitPiku(int width, int height)
 {
@@ -27,6 +29,11 @@ void Piku::InitPiku(int width, int height)
 
 	piku = al_load_bitmap("piku.png");
 	al_convert_mask_to_alpha(piku, al_map_rgb(255,0,255));
+
+	sample = al_load_sample("tap.flac");
+	if (!sample) {
+		exit(10);
+	}
 }
 
 void Piku::UpdatePiku(int width, int height, int dir)
@@ -53,6 +60,7 @@ void Piku::UpdatePiku(int width, int height, int dir)
 			if (++curFrame > maxFrame)
 				curFrame = 1;
 		}
+		al_play_sample(sample, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 	}
 	else if (dir == 3) { //up key
 		animationDirection = 3;
@@ -63,7 +71,7 @@ void Piku::UpdatePiku(int width, int height, int dir)
 			if (++curFrame > maxFrame)
 				curFrame = 1;
 		}
-
+		al_play_sample(sample, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 	}
 	else if (dir == 4) { //down key
 		animationDirection = 4;
@@ -74,6 +82,7 @@ void Piku::UpdatePiku(int width, int height, int dir)
 			if (++curFrame > maxFrame)
 				curFrame = 1;
 		}
+		al_play_sample(sample, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 	}
 		else //represent that they hit the space bar and that mean direction = 0
 			animationDirection = dir;
@@ -84,6 +93,7 @@ void Piku::UpdatePiku(int width, int height, int dir)
 		if (collided(x, y + frameHeight)) { //collision detection to the left
 			x = oldx; 
 			y= oldy;
+			al_play_sample(sample, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
 		}
 
 	}
@@ -92,6 +102,7 @@ void Piku::UpdatePiku(int width, int height, int dir)
 		if (collided(x + frameWidth, y + frameHeight)) { //collision detection to the right
 			x = oldx; 
 			y= oldy;
+			al_play_sample(sample, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
 		}
 	}
 	else if (animationDirection == 3)
@@ -99,6 +110,7 @@ void Piku::UpdatePiku(int width, int height, int dir)
 		if (collided(x + frameWidth, y)) { //collision detection from the bottom
 			x = oldx;
 			y = oldy;
+			al_play_sample(sample, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
 		}
 	}
 	else if (animationDirection == 4)
@@ -106,6 +118,7 @@ void Piku::UpdatePiku(int width, int height, int dir)
 		if (collided(x, y + frameHeight)) { //collision detection from the top
 			x = oldx;
 			y = oldy;
+			al_play_sample(sample, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
 		}
 	}
 }
