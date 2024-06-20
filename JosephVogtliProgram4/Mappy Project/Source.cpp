@@ -20,8 +20,8 @@ int main(void)
 	const int WIDTH = 900;
 	const int HEIGHT = 480;
 	int level = 1;
-	bool keys[] = {false, false, false, false, false};
-	enum KEYS{UP, DOWN, LEFT, RIGHT, SPACE};
+	bool keys[] = { false, false, false, false, false };
+	enum KEYS { UP, DOWN, LEFT, RIGHT, SPACE };
 	//variables
 	bool done = false;
 	bool render = false;
@@ -32,14 +32,14 @@ int main(void)
 
 
 	//allegro variable
-	ALLEGRO_DISPLAY *display = NULL;
-	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
-	ALLEGRO_TIMER *timer;
+	ALLEGRO_DISPLAY* display = NULL;
+	ALLEGRO_EVENT_QUEUE* event_queue = NULL;
+	ALLEGRO_TIMER* timer;
 	ALLEGRO_SAMPLE* sample = NULL;
 	ALLEGRO_SAMPLE* tap = NULL;
 
 	//program init
-	if(!al_init())										//initialize Allegro
+	if (!al_init())										//initialize Allegro
 		return -1;
 
 	if (!al_install_audio()) {
@@ -55,14 +55,14 @@ int main(void)
 	}
 
 	sample = al_load_sample("The Mountain Village.flac");
-	tap= al_load_sample("tap.flac");
+	tap = al_load_sample("tap.flac");
 	if (!tap && !sample) {
 		exit(9);
 	}
 
 	display = al_create_display(WIDTH, HEIGHT);			//create our display object
 
-	if(!display)										//test display object
+	if (!display)										//test display object
 		return -1;
 
 	//addon init
@@ -73,7 +73,7 @@ int main(void)
 	al_init_ttf_addon();
 	ALLEGRO_FONT* font = al_load_font("goodtime.ttf", 18, 0);
 
-	player.InitPiku(WIDTH,HEIGHT);
+	player.InitPiku(WIDTH, HEIGHT);
 
 	int xOff = 0;
 	int yOff = 0;
@@ -82,8 +82,9 @@ int main(void)
 	int frame = 0;
 	int barWidth = 0;
 	bool timeUp = false;
+	bool intro = false;
 	int direction = 0;
-	if(MapLoad("maze1.FMP", 1))
+	if (MapLoad("maze1.FMP", 1))
 		exit(0);
 
 	event_queue = al_create_event_queue();
@@ -94,20 +95,20 @@ int main(void)
 
 	al_start_timer(timer);
 	//draw the background tiles
-	MapDrawBG(xOff,yOff, 0, 0, WIDTH-1, HEIGHT-1);
+	MapDrawBG(xOff, yOff, 0, 0, WIDTH - 1, HEIGHT - 1);
 
 	//draw foreground tiles
-	MapDrawFG(xOff,yOff, 0, 0, WIDTH-1, HEIGHT-1, 1);
-	player.DrawPiku(0,0);
+	MapDrawFG(xOff, yOff, 0, 0, WIDTH - 1, HEIGHT - 1, 1);
+	player.DrawPiku(0, 0);
 	al_flip_display();
-	al_clear_to_color(al_map_rgb(0,0,0));
+	al_clear_to_color(al_map_rgb(0, 0, 0));
 	while (!done)
 	{
 		ALLEGRO_EVENT ev;
 		al_wait_for_event(event_queue, &ev);
 		if (ev.type == ALLEGRO_EVENT_TIMER)
 		{
-			// Counts to 30 seconds before shutting the game down
+			// Counts to 60 seconds before shutting the game down
 			frame += 1;
 			if (frame >= 60) {
 				timeCheck = frame / 60;
@@ -117,7 +118,16 @@ int main(void)
 				}
 			}
 			render = true;
-
+			if (!intro) {
+				if (level == 1) {
+					al_draw_text(font, al_map_rgb(255, 255, 255), WIDTH / 2 - 200, HEIGHT / 2 - 100, 0, "USE ARROW KEYS TO MOVE");
+					al_draw_text(font, al_map_rgb(255, 255, 255), WIDTH / 2 - 200, HEIGHT / 2 - 50, 0, "WALK OVER THE 3 COLORED TILES TO PROGRESS");
+					al_draw_text(font, al_map_rgb(255, 255, 255), WIDTH / 2 - 200, HEIGHT / 2, 0, "YOUR PROGRESS IS SHOWN ON THE LEFT VIA GREEN DOTS");
+				}
+				else {
+					intro = true;
+				}
+			}
 			al_play_sample(sample, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
 
 			if (keys[UP]) {
@@ -203,7 +213,7 @@ int main(void)
 				break;
 			case ALLEGRO_KEY_SPACE:
 				keys[SPACE] = true;
-					
+
 				break;
 
 			}
@@ -296,7 +306,6 @@ int main(void)
 	al_destroy_event_queue(event_queue);
 	al_destroy_display(display);						//destroy our display object
 	al_destroy_sample(sample);
-	al_destroy_sample(tap);
 
 	return 0;
 }
@@ -314,6 +323,7 @@ int collided(int x, int y)
 	else if (blockdata->user1 == 1) {
 		return 1;
 	}
+	//Key blocks
 	else if (blockdata->user1 == 2) {
 		key += 1;
 		blockdata->user1 = 0;
