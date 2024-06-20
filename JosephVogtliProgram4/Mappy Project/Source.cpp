@@ -120,9 +120,11 @@ int main(void)
 			render = true;
 			if (!intro) {
 				if (level == 1) {
+					al_draw_text(font, al_map_rgb(255, 255, 255), WIDTH / 2 - 200, HEIGHT / 2 - 150, 0, "WELCOME TO THE TUTORIAL!");
 					al_draw_text(font, al_map_rgb(255, 255, 255), WIDTH / 2 - 200, HEIGHT / 2 - 100, 0, "USE ARROW KEYS TO MOVE");
 					al_draw_text(font, al_map_rgb(255, 255, 255), WIDTH / 2 - 200, HEIGHT / 2 - 50, 0, "WALK OVER THE 3 COLORED TILES TO PROGRESS");
 					al_draw_text(font, al_map_rgb(255, 255, 255), WIDTH / 2 - 200, HEIGHT / 2, 0, "YOUR PROGRESS IS SHOWN ON THE LEFT VIA GREEN DOTS");
+					al_draw_text(font, al_map_rgb(255, 255, 255), WIDTH / 2 - 200, HEIGHT / 2 + 50, 0, "YOU HAVE 60 SECONDS, GOOD LUCK!");
 				}
 				else {
 					intro = true;
