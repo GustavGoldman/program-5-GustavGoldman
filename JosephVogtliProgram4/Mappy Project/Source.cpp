@@ -84,6 +84,9 @@ int main(void)
 	bool timeUp = false;
 	bool intro = false;
 	int direction = 0;
+	string level1Time;
+	string level2Time;
+	string level3Time;
 	if (MapLoad("maze1.FMP", 1))
 		exit(0);
 
@@ -178,13 +181,16 @@ int main(void)
 					frame = 0;
 					if (MapLoad("maze2.FMP", 1))
 						exit(0);
+					level1Time = to_string(timeLeft - timeCheck);
 				}
 				if (level == 3) {
 					frame = 0;
 					if (MapLoad("maze3.FMP", 1))
 						exit(0);
+					level2Time = to_string(timeLeft - timeCheck);
 				}
 				if (level == 4) {
+					level3Time = to_string(timeLeft - timeCheck);
 					done = true;
 				}
 			}
@@ -281,6 +287,10 @@ int main(void)
 			}
 			if (done) {
 				al_draw_text(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2, 0, "GAME OVER");
+				const char* temp[] = { level1Time.c_str(), level2Time.c_str(), level3Time.c_str()};
+				al_draw_text(font, al_map_rgb(255, 255, 255), (WIDTH / 2), HEIGHT / 2 - 40, 0, temp[1]);
+
+
 			}
 			string test = to_string(timeLeft - timeCheck); //timer
 			const char* test2 = test.c_str();
