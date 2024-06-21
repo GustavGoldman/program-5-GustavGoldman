@@ -285,10 +285,18 @@ int main(void)
 			else if (level == 3) {
 				al_draw_text(font, al_map_rgb(255, 255, 255), WIDTH / 2, 0, 0, "LEVEL 3");
 			}
+			//Final Scores
 			if (done) {
+				al_draw_filled_rectangle(0, 0, WIDTH, HEIGHT, al_map_rgb(0, 0, 0));
 				al_draw_text(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2, 0, "GAME OVER");
 				const char* temp[] = { level1Time.c_str(), level2Time.c_str(), level3Time.c_str()};
+				al_draw_text(font, al_map_rgb(255, 255, 255), (WIDTH / 2) - 100, HEIGHT / 2 - 80, 0, "FINAL SCORES:");
+				al_draw_text(font, al_map_rgb(255, 255, 255), (WIDTH / 2) - 100, HEIGHT / 2 -60, 0, "LEVEL 1:");
+				al_draw_text(font, al_map_rgb(255, 255, 255), (WIDTH / 2), HEIGHT / 2 - 60, 0, temp[0]);
+				al_draw_text(font, al_map_rgb(255, 255, 255), (WIDTH / 2) - 100, HEIGHT / 2 - 40, 0, "LEVEL 2:");
 				al_draw_text(font, al_map_rgb(255, 255, 255), (WIDTH / 2), HEIGHT / 2 - 40, 0, temp[1]);
+				al_draw_text(font, al_map_rgb(255, 255, 255), (WIDTH / 2) - 100, HEIGHT/ 2 - 20, 0, "LEVEL 3:");
+				al_draw_text(font, al_map_rgb(255, 255, 255), (WIDTH / 2), HEIGHT / 2 - 20, 0, temp[2]);
 
 
 			}
@@ -313,7 +321,7 @@ int main(void)
 			al_clear_to_color(al_map_rgb(0, 0, 0));
 		}
 	}
-	al_rest(5);
+	al_rest(10);
 	MapFreeMem();
 	al_destroy_event_queue(event_queue);
 	al_destroy_display(display);						//destroy our display object
