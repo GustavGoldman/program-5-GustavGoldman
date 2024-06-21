@@ -121,6 +121,8 @@ int main(void)
 				}
 			}
 			render = true;
+
+			//Introduction
 			if (!intro) {
 				if (level == 1) {
 					al_draw_text(font, al_map_rgb(255, 255, 255), WIDTH / 2 - 200, HEIGHT / 2 - 150, 0, "WELCOME TO THE TUTORIAL!");
@@ -133,7 +135,7 @@ int main(void)
 					intro = true;
 				}
 			}
-			al_play_sample(sample, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
+			al_play_sample(sample, 0.3, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
 
 			if (keys[UP]) {
 				player.UpdatePiku(WIDTH, HEIGHT, 3);
